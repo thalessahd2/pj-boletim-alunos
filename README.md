@@ -19,4 +19,4 @@ Um aplicativo de console simples para **gerenciar boletins de alunos** (cadastra
 Verifique a versão:
 ```bash
 python --version
-``
+```
