@@ -16,16 +16,16 @@ def imprimir_boletim(boletim):
     status = 'MATRÍCULA ATIVA' if boletim['is_ativo'] else 'MATRÍCULA INATIVA'
 
     print(
-        f'ID: {boletim['id']}\n'
-        f'Nome: {boletim['nome']}\n'
-        f'Idade: {boletim['idade']}\n'
-        f'Nota: {boletim['nota']}\n'
+        f"ID: {boletim['id']}\n"
+        f"Nome: {boletim['nome']}\n"
+        f"Idade: {boletim['idade']}\n"
+        f"Nota: {boletim['nota']}\n"
         f'Situação: {situacao}\n'
         f'Status: {status}\n'
     )
 
 def solicitar_enter():
-    enter = input('Precione ENTER para continuar...')
+    enter = input('Pressione ENTER para continuar...')
     print('')
     return enter
 
@@ -45,15 +45,24 @@ def cadastrar_boletim(id_atual):
     }
 
     dict_boletim_alunos[obj_aluno['id']] = obj_aluno
-    print(f'>> O boletim de {obj_aluno['nome']} foi cadastrado com sucesso com id = {obj_aluno['id']} <<')
+    print(f">> O boletim de {obj_aluno['nome']} foi cadastrado com sucesso com ID [{obj_aluno['id']}] <<")
     solicitar_enter()
 
     return novo_id_aluno
 
+def excluir_boletim(id):
+    boletim = dict_boletim_alunos.get(id)
+    if (boletim):
+        boletim['is_ativo'] = False
+        print(f">> O boletim de {boletim['nome']} foi excluído com sucesso <<")
+    else:
+        print('>> Boletim não encontrado <<')
+    solicitar_enter()
+
 def visualizar_boletim(id):
     boletim = dict_boletim_alunos.get(id)
     if (boletim):
-        print(f'****** Boletim de {boletim['nome']} ******')
+        print(f"****** Boletim de {boletim['nome']} ******")
         imprimir_boletim(boletim)
     else:
         print('>> Boletim não encontrado <<')
@@ -65,7 +74,8 @@ def visualizar_boletins():
     else: 
         for id in dict_boletim_alunos:
             boletim = dict_boletim_alunos[id]
-            imprimir_boletim(boletim)
+            if (boletim['is_ativo']):
+                imprimir_boletim(boletim)
 
     solicitar_enter()
 
@@ -75,20 +85,23 @@ def imprimir_aviso():
 
 imprimir_menu()
 opcao = int(input('Escolha uma opção: '))
+print('')
 while (opcao > 0):
     match opcao:
         case 1:
-            print('****** Visualizar boletins ******')
+            print('****** Visualizar Boletins ******')
             visualizar_boletins()
         case 2:
-            print('****** Visualizar boletim ******')
+            print('****** Visualizar Boletim ******')
             input_id = int(input('Digite o id do boletim: '))
             visualizar_boletim(input_id)
         case 3:
-            print('****** Cadastrar boletim ******')
+            print('****** Cadastrar Boletim ******')
             indice_alunos = cadastrar_boletim(indice_alunos)
         case 4:
-            imprimir_aviso()
+            print('****** Excluir Boletim ******')
+            input_id = int(input('Digite o id do boletim que será excluído: '))
+            excluir_boletim(input_id)
         case 5:
             imprimir_aviso()
         case 6:
@@ -99,5 +112,6 @@ while (opcao > 0):
 
     imprimir_menu()
     opcao = int(input('Escolha uma opção: '))
+    print('')
 
 print('>> Boletim de Alunos Colégio THD Encerrado <<')
