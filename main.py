@@ -1,3 +1,5 @@
+import json
+
 dict_boletim_alunos = {}
 indice_alunos = 0
 
@@ -9,8 +11,8 @@ def imprimir_menu():
     print('2  • Visualizar boletim individual')
     print('3  • Cadastrar boletim')
     print('4  • Excluir boletim')
-    print('5  • Importar boletim')
-    print('6  • Exportar boletim')
+    print('5  • Importar boletins')
+    print('6  • Exportar boletins')
     print('0  • Sair')
     print('----------------------------------------\n')
 
@@ -87,6 +89,17 @@ def visualizar_boletins():
 
     solicitar_enter()
 
+def exportar_boletins(nome_arq):
+    if not dict_boletim_alunos:
+        print(f'\n• Nenhum boletim cadastrado no sistema •')
+    else:
+        nome_arq_json = nome_arq + '.json'
+        with open(nome_arq_json, 'w', encoding='utf-8') as f:
+            json.dump(dict_boletim_alunos, f, ensure_ascii=False, indent=4)
+
+        print(f'\n• {nome_arq_json} gerado com sucesso •')
+    solicitar_enter()
+
 def imprimir_aviso():
     print('\n• Funcionalidade ainda não implementada nessa versão •')
     solicitar_enter()
@@ -112,7 +125,9 @@ while (opcao > 0):
         case 5:
             imprimir_aviso()
         case 6:
-            imprimir_aviso()
+            print('\n===  Exportar Boletins ===\n')
+            nome_arq = input('Nome do arquivo a ser criado: ')
+            exportar_boletins(nome_arq)
         case _:
             print('\n• Opção inválida, tente novamente •')
             solicitar_enter()
